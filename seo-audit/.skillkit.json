@@ -1,1 +1,10 @@
-{ "name": "seo-audit", "description": "SEO audit skill", "version": "1.0.0" } 
+{
+  "name": "seo-audit",
+  "description": "",
+  "source": "coreyhaines31/marketingskills",
+  "sourceType": "github",
+  "subpath": "seo-audit",
+  "installedAt": "2026-04-17T17:36:39.787Z",
+  "enabled": true,
+  "checksum": "632718a8119a5c75"
+}
