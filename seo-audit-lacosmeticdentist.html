@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit — lacosmeticdentist.com</title>
+<style>
+  :root {
+    --red: #C0392B;
+    --orange: #E67E22;
+    --yellow: #D4A017;
+    --green: #27AE60;
+    --accent: #2C3E7A;
+    --dark: #1A1A2E;
+    --gray: #555;
+    --light: #F5F7FA;
+    --border: #E0E0E0;
+    --white: #fff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f7; color: var(--dark); }
+
+  /* HERO */
+  .hero { background: var(--accent); color: #fff; padding: 56px 40px 48px; text-align: center; }
+  .hero h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
+  .hero .domain { font-size: 1.25rem; opacity: .85; margin-bottom: 6px; }
+  .hero .meta { font-size: .9rem; opacity: .65; }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* CARDS */
+  .card { background: var(--white); border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.07); margin-bottom: 28px; overflow: hidden; }
+  .card-header { background: var(--accent); color: #fff; padding: 14px 22px; font-size: 1.05rem; font-weight: 700; }
+
+  /* EXEC SUMMARY */
+  .summary-text { padding: 20px 22px; font-size: .95rem; line-height: 1.7; color: var(--gray); }
+  .top5 { list-style: none; padding: 0 22px 20px; }
+  .top5 li { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+  .top5 li:last-child { border-bottom: none; }
+  .top5 .num { background: var(--accent); color: #fff; border-radius: 5px; min-width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 22px; }
+  .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: .78rem; font-weight: 700; color: #fff; }
+  .badge.critical { background: var(--red); }
+  .badge.high { background: var(--orange); }
+  .badge.medium { background: var(--yellow); }
+  .badge.low { background: var(--green); }
+
+  /* ISSUE BLOCKS */
+  .issue { border-left: 5px solid var(--border); margin: 0; padding: 0; }
+  .issue + .issue { border-top: 1px solid var(--border); }
+  .issue-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px 10px; }
+  .issue-num { background: var(--accent); color: #fff; border-radius: 6px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .82rem; flex-shrink: 0; }
+  .issue-title { font-weight: 700; font-size: .95rem; flex: 1; }
+  .issue-body { padding: 0 20px 16px; display: grid; grid-template-columns: 90px 1fr; gap: 6px 12px; font-size: .88rem; }
+  .issue-label { font-weight: 700; color: var(--accent); padding-top: 2px; }
+  .issue-val { color: var(--dark); line-height: 1.55; }
+
+  .issue.critical { border-left-color: var(--red); }
+  .issue.high     { border-left-color: var(--orange); }
+  .issue.medium   { border-left-color: var(--yellow); }
+  .issue.low      { border-left-color: var(--green); }
+
+  /* ACTION PLAN */
+  .plan-tier { margin-bottom: 22px; }
+  .plan-tier-header { padding: 10px 18px; border-radius: 7px 7px 0 0; color: #fff; font-weight: 700; font-size: .95rem; }
+  .plan-tier-header.critical { background: var(--red); }
+  .plan-tier-header.high     { background: var(--orange); }
+  .plan-tier-header.medium   { background: var(--yellow); }
+  .plan-tier-header.low      { background: var(--green); }
+  .plan-items { border: 1px solid var(--border); border-top: none; border-radius: 0 0 7px 7px; overflow: hidden; }
+  .plan-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 16px; font-size: .9rem; }
+  .plan-item:nth-child(even) { background: var(--light); }
+  .plan-item .step { font-weight: 700; color: var(--accent); min-width: 22px; }
+
+  /* TOOLS */
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 20px; }
+  .tool-card { background: var(--light); border-radius: 8px; padding: 14px 16px; border: 1px solid var(--border); }
+  .tool-card .tool-name { font-weight: 700; color: var(--accent); font-size: .9rem; margin-bottom: 4px; }
+  .tool-card .tool-desc { font-size: .83rem; color: var(--gray); line-height: 1.5; margin-bottom: 6px; }
+  .tool-card .tool-url { font-size: .78rem; color: #888; font-style: italic; }
+
+  /* FOOTER */
+  .footer { text-align: center; font-size: .8rem; color: #aaa; padding: 20px; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.5rem; }
+    .issue-body { grid-template-columns: 1fr; }
+    .issue-label { padding-bottom: 0; }
+    .tools-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SEO Audit Report</h1>
+  <div class="domain">lacosmeticdentist.com</div>
+  <div class="meta">Audited: April 17, 2026 &nbsp;|&nbsp; Site Type: Dental Directory — Los Angeles</div>
+</div>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="card">
+    <div class="card-header">Executive Summary</div>
+    <p class="summary-text">
+      This site has <strong>severe, foundational SEO problems</strong> that collectively explain minimal organic visibility.
+      The site appears largely abandoned since March 2016. Multiple pages contain literal Lorem ipsum placeholder text on a live, indexed site.
+      Title tags duplicate the brand name on every page. Meta descriptions are missing sitewide. Nearly 900 dentist profile pages
+      contain ~150 words of thin content with no schema markup. Until these issues are addressed, no amount of link building
+      or keyword targeting will move the needle.
+    </p>
+    <ul class="top5">
+      <li><span class="num">1</span> Fix the About Us page — Lorem ipsum placeholder content on a live site</li>
+      <li><span class="num">2</span> Add meta descriptions to every page (none detected sitewide)</li>
+      <li><span class="num">3</span> Fix the duplicate brand name in all title tags</li>
+      <li><span class="num">4</span> Add LocalBusiness / Dentist schema to all profile pages</li>
+      <li><span class="num">5</span> Dramatically improve or noindex the 900+ thin profile pages</li>
+    </ul>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="card">
+    <div class="card-header">Priority Legend</div>
+    <div class="legend">
+      <span class="badge critical">Critical</span>
+      <span class="badge high">High</span>
+      <span class="badge medium">Medium</span>
+      <span class="badge low">Low</span>
+    </div>
+  </div>
+
+  <!-- TECHNICAL SEO -->
+  <div class="card">
+    <div class="card-header">Technical SEO Findings</div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">1</span><span class="issue-title">Robots.txt — Missing Sitemap Directive</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">The robots.txt file contains no <code>Sitemap:</code> directive pointing to the XML sitemap.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">lacosmeticdentist.com/robots.txt — no Sitemap: line present.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Add <code>Sitemap: https://lacosmeticdentist.com/sitemap.xml</code> at the bottom of robots.txt.</span>
+      </div>
+    </div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">2</span><span class="issue-title">Sitemap Entirely Stale — All Dates March 2016</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">Every URL in the sitemap has <code>lastmod: 2016-03-11</code>. Google treats stale lastmod dates as a signal to deprioritize crawling.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">sitemap.xml — 1,000+ URLs, all with 2016 modification dates.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Update lastmod values to actual modification dates. Ensure the XML Sitemaps WordPress plugin auto-updates on content changes.</span>
+      </div>
+    </div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">3</span><span class="issue-title">No Canonical Tags Detected Sitewide</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">No <code>&lt;link rel="canonical"&gt;</code> tags found on any pages tested. With 900+ similar profile pages, Google may consolidate or discount authority.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">Homepage, About Us, Dental Tourism, Find a Dentist, and profile pages — no canonical tags found.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Add self-referencing canonical tags to every page via Yoast SEO or RankMath.</span>
+      </div>
+    </div>
+    <div class="issue low">
+      <div class="issue-header"><span class="issue-num">4</span><span class="issue-title">HTTPS / SSL — No Issues</span><span class="badge low">Pass</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">Site correctly serves HTTPS. No mixed content issues detected.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">No action needed.</span>
+      </div>
+    </div>
+    <div class="issue low">
+      <div class="issue-header"><span class="issue-num">5</span><span class="issue-title">No Sitemap Index — Flat File with 1,000+ URLs</span><span class="badge low">Low</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">A single sitemap file containing 1,000+ URLs is less organized than a sitemap index. Not blocking, but inefficient.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">sitemap.xml — flat structure; sitemap_index.xml returns 404.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Split into a sitemap index: core pages + profile pages. Lower profile page priority to 0.3.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON-PAGE SEO -->
+  <div class="card">
+    <div class="card-header">On-Page SEO Findings</div>
+    <div class="issue critical">
+      <div class="issue-header"><span class="issue-num">6</span><span class="issue-title">Duplicate Brand Name in Every Title Tag</span><span class="badge critical">Critical</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">Every page title ends with <code>LacosmeticdentistLacosmeticdentist</code> — the brand name is doubled. Looks spammy in SERPs and wastes characters.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">"About us - LacosmeticdentistLacosmeticdentist" | "Dental Tourism - LacosmeticdentistLacosmeticdentist" | "William M. Dorfman, DDS - LacosmeticdentistLacosmeticdentist"</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Fix in WordPress theme/SEO plugin settings. Correct format: "William M. Dorfman DDS | Cosmetic Dentist Los Angeles".</span>
+      </div>
+    </div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">7</span><span class="issue-title">Meta Descriptions Missing Sitewide</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">No meta descriptions detected on any page tested. Google writes its own snippets, which are typically worse, hurting click-through rates.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">Homepage, About Us, Dental Tourism, Find a Dentist, and Dorfman profile — all returned no meta description.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Write unique 150–160 character meta descriptions for every page via an SEO plugin.</span>
+      </div>
+    </div>
+    <div class="issue critical">
+      <div class="issue-header"><span class="issue-num">8</span><span class="issue-title">About Us Page — Live Lorem Ipsum Placeholder Content</span><span class="badge critical">Critical</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">The About Us page is populated with Latin gibberish and irrelevant text ("Check out our powerfull Food menu custom type"). H2s read "1 Half Column" and "2 Half Column" — raw template artifacts on a live, indexed page.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">lacosmeticdentist.com/about-us/ — body is entirely Lorem ipsum with no real business information.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Immediately replace with real content: who runs the site, credentials, editorial standards, and why visitors should trust it.</span>
+      </div>
+    </div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">9</span><span class="issue-title">Find a Dentist Page Has No Content</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">The /find-a-dentist/ page contains only a 2-field contact form (name + email). No content, no keywords, no value for visitors or search engines.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">Page body: "Please leave name and email address to receive more information or a quote."</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Add 300–500 words explaining the directory, AACD membership standards, and optimize for "find cosmetic dentist Los Angeles" variants.</span>
+      </div>
+    </div>
+    <div class="issue medium">
+      <div class="issue-header"><span class="issue-num">10</span><span class="issue-title">H1 Tags Not Keyword-Optimized</span><span class="badge medium">Medium</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">H1s are generic page names with no geographic or keyword modifiers ("About us", "Find a Dentist", "Dental Tourism").</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Rewrite H1s to include target keywords: e.g., "Find a Cosmetic Dentist in Los Angeles" instead of "Find a Dentist".</span>
+      </div>
+    </div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">11</span><span class="issue-title">900+ Thin Profile Pages (~150 Words Each)</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">~900 dentist profiles under /item/ with ~150–200 words each: name, address, phone, review form. No unique editorial content. Triggers Google quality filters at this scale.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">lacosmeticdentist.com/item/william-m-dorfman-dds/ — ~150 words, generic H2s ("Leave a review"), no schema.</span>
+        <span class="issue-label">Fix</span><span class="issue-val"><strong>Option A:</strong> Enrich each profile (bio, specialty, services, insurance, photos, reviews — 400+ words). <strong>Option B:</strong> Noindex thin profiles and 301-redirect to enriched category pages.</span>
+      </div>
+    </div>
+    <div class="issue medium">
+      <div class="issue-header"><span class="issue-num">12</span><span class="issue-title">Generic Image Alt Text on Profile Pages</span><span class="badge medium">Medium</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">Profile images use <code>alt="Item image"</code> — a template default with zero SEO value. Also fails WCAG accessibility requirements.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">William Dorfman profile — profile image alt text is "Item image".</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Use descriptive alt text: e.g., <code>alt="Dr. William Dorfman, cosmetic dentist in Los Angeles"</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEMA -->
+  <div class="card">
+    <div class="card-header">Schema Markup Findings</div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">13</span><span class="issue-title">No Structured Data on Any Pages</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">No JSON-LD schema detected on homepage, profile pages, or content pages. This is a local business directory — schema is essential for rich results.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">No schema tags found across all pages tested. Verify via <a href="https://search.google.com/test/rich-results" target="_blank">Google Rich Results Test</a> (WebFetch cannot detect JS-injected schema).</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Implement: <code>Dentist</code>/<code>LocalBusiness</code> on each profile; <code>BreadcrumbList</code> sitewide; <code>WebSite</code> + <code>sitelinksSearchBox</code> on homepage; <code>Organization</code> on homepage.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT QUALITY -->
+  <div class="card">
+    <div class="card-header">Content Quality Findings</div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">14</span><span class="issue-title">Zero E-E-A-T Signals (YMYL Site)</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">No author credentials, editorial policy, or expertise demonstrated anywhere. Google's quality guidelines heavily weight E-E-A-T for health/medical (YMYL) content — this site is squarely in that category.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">About Us page is Lorem ipsum. No bylines, no credentials, no editorial standards disclosed.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Write a real About Us page, add editor credentials, explain AACD accreditation standards, and display trust signals (years operating, dentist count, AACD affiliation).</span>
+      </div>
+    </div>
+    <div class="issue medium">
+      <div class="issue-header"><span class="issue-num">15</span><span class="issue-title">Non-Dentist Entries in Sitemap</span><span class="badge medium">Medium</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">The sitemap contains entries for unrelated businesses (chocolate factory, donut shop), diluting the site's topical focus.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Audit all non-dentist entries, 301-redirect or 410-remove them, and purge from the sitemap.</span>
+      </div>
+    </div>
+    <div class="issue medium">
+      <div class="issue-header"><span class="issue-num">16</span><span class="issue-title">No Active Blog Content</span><span class="badge medium">Medium</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">A Blog section exists in navigation but appears to have no recent content — the primary vehicle for informational keyword traffic.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Publish 2–4 articles/month targeting LA cosmetic dentistry queries ("how much do veneers cost in Los Angeles", "best cosmetic dentist LA"). Each: 800+ words, genuine expert insight.</span>
+      </div>
+    </div>
+    <div class="issue medium">
+      <div class="issue-header"><span class="issue-num">17</span><span class="issue-title">Dental Tourism Page — Missing Local Angle</span><span class="badge medium">Medium</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">The Dental Tourism page (~450 words) has real content but no LA-specific keywords, no internal links to related pages, and no CTA.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Add location framing ("from Los Angeles"), internal links to AACD section and profiles, a CTA, and expand to 700+ words.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCAL SEO -->
+  <div class="card">
+    <div class="card-header">Local SEO Findings</div>
+    <div class="issue high">
+      <div class="issue-header"><span class="issue-num">18</span><span class="issue-title">No GBP Integration / NAP Consistency Not Enforced</span><span class="badge high">High</span></div>
+      <div class="issue-body">
+        <span class="issue-label">Issue</span><span class="issue-val">No schema linking to Google Business Profiles for listed dentists. No NAP (Name/Address/Phone) consistency enforcement. A directory with inconsistent or outdated NAP actively harms listed dentists' local rankings.</span>
+        <span class="issue-label">Evidence</span><span class="issue-val">Profile pages show contact details but no verification, no GBP links, no cross-reference to citation consistency.</span>
+        <span class="issue-label">Fix</span><span class="issue-val">Audit all NAP data for accuracy. Add a "Verified Listing" badge. Consider linking to each dentist's GBP. Add LocalBusiness schema with consistent NAP on each profile.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION PLAN -->
+  <div class="card">
+    <div class="card-header">Prioritized Action Plan</div>
+    <div style="padding: 20px; display: flex; flex-direction: column; gap: 18px;">
+
+      <div class="plan-tier">
+        <div class="plan-tier-header critical">🔴 Critical — Do This Week</div>
+        <div class="plan-items">
+          <div class="plan-item"><span class="step">1</span> Fix title tag duplication — remove double brand name from all page titles</div>
+          <div class="plan-item"><span class="step">2</span> Replace Lorem ipsum on About Us with real business content, credentials, and editorial standards</div>
+          <div class="plan-item"><span class="step">3</span> Add Sitemap: directive to robots.txt</div>
+        </div>
+      </div>
+
+      <div class="plan-tier">
+        <div class="plan-tier-header high">🟠 High Impact — Do This Month</div>
+        <div class="plan-items">
+          <div class="plan-item"><span class="step">4</span> Write and add meta descriptions to all pages</div>
+          <div class="plan-item"><span class="step">5</span> Add canonical tags sitewide via Yoast SEO or RankMath</div>
+          <div class="plan-item"><span class="step">6</span> Implement Dentist + LocalBusiness JSON-LD schema on all ~900 profile pages</div>
+          <div class="plan-item"><span class="step">7</span> Add BreadcrumbList schema sitewide</div>
+          <div class="plan-item"><span class="step">8</span> Add real content to /find-a-dentist/ page (300–500 words, keyword-optimized)</div>
+          <div class="plan-item"><span class="step">9</span> Update sitemap lastmod dates to reflect actual modification times</div>
+          <div class="plan-item"><span class="step">10</span> Audit and 301-redirect or remove non-dentist directory entries</div>
+          <div class="plan-item"><span class="step">11</span> Audit and correct NAP data across all dentist profile pages</div>
+        </div>
+      </div>
+
+      <div class="plan-tier">
+        <div class="plan-tier-header medium">🟡 Medium Priority — Next Quarter</div>
+        <div class="plan-items">
+          <div class="plan-item"><span class="step">12</span> Rewrite H1s to include keyword + geo modifiers</div>
+          <div class="plan-item"><span class="step">13</span> Decision: enrich thin profile pages (400+ words) OR noindex + redirect them</div>
+          <div class="plan-item"><span class="step">14</span> Fix generic image alt text across all profile pages</div>
+          <div class="plan-item"><span class="step">15</span> Expand Dental Tourism page: add LA context, internal links, CTA, 700+ words</div>
+          <div class="plan-item"><span class="step">16</span> Start publishing blog content targeting LA cosmetic dentistry keywords</div>
+        </div>
+      </div>
+
+      <div class="plan-tier">
+        <div class="plan-tier-header low">🟢 Long Term</div>
+        <div class="plan-items">
+          <div class="plan-item"><span class="step">17</span> Build E-E-A-T: add editorial credentials, verification standards, and trust signals</div>
+          <div class="plan-item"><span class="step">18</span> Develop topical clusters: veneers, whitening, implants, smile makeovers — hub + spoke content</div>
+          <div class="plan-item"><span class="step">19</span> Reach out to listed dentists to verify/update profiles — build a "Verified Listing" feature</div>
+          <div class="plan-item"><span class="step">20</span> Implement sitemap index to replace flat 1,000-URL sitemap</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="card">
+    <div class="card-header">Recommended Tools to Run Next</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name">Google Rich Results Test</div>
+        <div class="tool-desc">Confirm schema status — WebFetch cannot detect JavaScript-injected schema. Run every page that should have structured data.</div>
+        <div class="tool-url">search.google.com/test/rich-results</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Google PageSpeed Insights</div>
+        <div class="tool-desc">Get Core Web Vitals scores (LCP, INP, CLS) for both mobile and desktop. The API was rate-limited during this audit.</div>
+        <div class="tool-url">pagespeed.web.dev</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Google Search Console</div>
+        <div class="tool-desc">Check coverage report for noindex/excluded pages, impressions by query, click-through rates, and any manual actions.</div>
+        <div class="tool-url">search.google.com/search-console</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">site: operator in Google</div>
+        <div class="tool-desc">Run <code>site:lacosmeticdentist.com</code> to count indexed pages vs. sitemap URLs and detect indexation gaps or surprises.</div>
+        <div class="tool-url">Google Search</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">SEO Audit — lacosmeticdentist.com — April 17, 2026</div>
+
+</body>
+</html>
